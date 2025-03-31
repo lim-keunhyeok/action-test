@@ -27,6 +27,9 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
+      - name: npm install
+        run: npm install
+
       - name: Get Branch Name
         id: branch_name
         run: echo "branch=${GITHUB_REF#refs/heads/}" >> "$GITHUB_OUTPUT"
@@ -35,16 +38,12 @@ jobs:
         id: is_feature
         run: echo "is_feature=$(echo ${{ steps.branch_name.outputs.branch }} | grep -c '^feature/')" >> "$GITHUB_OUTPUT"
 
-      - name: Check variable
+      - name: Console Variable
         run: |
           echo "BRANCH_NAME=${{ steps.branch_name.outputs.branch }}"
           echo "IS_FEATURE=${{ steps.is_feature.outputs.is_feature }}"
 
-      - name: npm install
-        run: npm install
-
       - name: Run tests
         run: npm test
         env:
-          TEST_DB: ${{ steps.branch_name.outputs.branch }} # branch 이름을 환경변수로 전달
-
+          TEST_DB: ${{ steps.branch_name.outputs.branch }}
