@@ -40,6 +40,9 @@ jobs:
           echo "BRANCH_NAME=${{ steps.branch_name.outputs.branch }}"
           echo "IS_FEATURE=${{ steps.is_feature.outputs.is_feature }}"
 
+      - name: npm install
+        run: npm install
+
       - name: Run tests
         run: npm test
         env:
