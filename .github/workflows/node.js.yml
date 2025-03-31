@@ -15,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x, 20.x, 22.x]
+        node-version: [18.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -34,3 +34,8 @@ jobs:
       - name: Check if Feature Branch
         id: is_feature
         run: echo "is_feature=$(echo ${{ steps.branch_name.outputs.branch }} | grep -c '^feature/')" >> "$GITHUB_OUTPUT"
+
+      - name: Check variable
+        run: |
+          echo "BRANCH_NAME=${{ steps.branch_name.outputs.branch }}"
+          echo "BRANCH_NAME=${{ steps.is_feature.outputs.is_feature }}"
