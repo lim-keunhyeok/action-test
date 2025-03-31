@@ -38,4 +38,10 @@ jobs:
       - name: Check variable
         run: |
           echo "BRANCH_NAME=${{ steps.branch_name.outputs.branch }}"
-          echo "BRANCH_NAME=${{ steps.is_feature.outputs.is_feature }}"
+          echo "IS_FEATURE=${{ steps.is_feature.outputs.is_feature }}"
+
+      - name: Run tests
+        run: npm test
+        env:
+          TEST_DB: ${{ steps.branch_name.outputs.branch }} # branch 이름을 환경변수로 전달
+

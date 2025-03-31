@@ -7,6 +7,6 @@ export class AppController {
 
   @Get()
   getHello() {
-    return process.env;
+    return process.env.TEST_DB;
   }
 }
