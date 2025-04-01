@@ -32,18 +32,13 @@ jobs:
 
       - name: Get Branch Name
         id: branch_name
-        run: echo "branch=${GITHUB_REF#refs/heads/}" >> "$GITHUB_OUTPUT"
+        run: echo "branch=${GITHUB_REF#refs/heads/}" >> "$GITHUB_OUTPUT" # 워크플로를 실행한 branch 또는 tag의 형식에서 브랜치 명을 파싱
 
       - name: Check if Feature Branch
         id: is_feature
-        run: echo "is_feature=$(echo ${{ steps.branch_name.outputs.branch }} | grep -c '^feature/')" >> "$GITHUB_OUTPUT"
-
-      - name: Console Variable
-        run: |
-          echo "BRANCH_NAME=${{ steps.branch_name.outputs.branch }}"
-          echo "IS_FEATURE=${{ steps.is_feature.outputs.is_feature }}"
+        run: echo "is_feature=$(echo ${{ steps.branch_name.outputs.branch }} | grep -c '^feature/')" >> "$GITHUB_OUTPUT" # 만약 feature 브랜치라면 1, 아니면 0
 
       - name: Run tests
         run: npm test
         env:
-          TEST_DB: ${{ steps.branch_name.outputs.branch }}
+          TEST_DB: ${{ steps.branch_name.outputs.branch }} # 환경 변수로 전달
